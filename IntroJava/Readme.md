@@ -37,3 +37,17 @@ Type System
 - statica -> che il controllo del codice avviene a compile time
 - forte -> vuol dire che sono costretto a dire tutto delle variabili e di ciò che restituisce una funzione SEMPRE
 (il contrario è dinamico e debole)
+
+Conversione di tipo (CASTING)
+- Si possono effettuare conversioni di tipo SOLO da un tipo più piccolo ad uno più grande
+
+PARSE = Traduzione
+
+Classi wrapper
+- Sono classi che incpasulano i tipi primiti
+- Ogni tipo primitivo ha la sua classe wrapper
+- Nascono per darci la possibilità di gestire i valori null ma avere anche a disposizione dei metodi utili ai nostri scopi (vedi parseInt)
+
+int -> Integer
+boolean -> Boolean
+......
