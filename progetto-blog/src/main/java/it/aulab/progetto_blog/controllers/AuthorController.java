@@ -1,70 +1,45 @@
 package it.aulab.progetto_blog.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import it.aulab.progetto_blog.models.Author;
-import it.aulab.progetto_blog.models.Post;
-import it.aulab.progetto_blog.repositories.AuthorRepository;
+import it.aulab.progetto_blog.services.AuthorService;
 
-// @Controller
-@RestController
+@Controller
 @RequestMapping("/authors")
 public class AuthorController {
-    
+
     @Autowired
-    AuthorRepository authorRepository;
-    
-    // @RequestMapping(method=RequestMethod.GET)
-    // public @ResponseBody List<Author> getAllAuthors(){
+    AuthorService authorService;
+
     @GetMapping
-    public List<Author> getAllAuthors(){
-        return authorRepository.findAll();    
+    public String index(Model viewModel){
+        //restituisce il nome della vista
+        //addAttribute è un metodo che accetta due parametri, il primo è la chiave il secondo è il valore
+        viewModel.addAttribute("title", "Tutti gli autori");
+        viewModel.addAttribute("authors", authorService.readAll());
+        return "authors";
     }
 
-    // @RequestMapping(value="/{id}", method=RequestMethod.GET) ///authors/{id} // authors/3
-    // public @ResponseBody Author getAuthor(@PathVariable("id") Long id){
-    @GetMapping("{id}")
-    public Author getAuthor(@PathVariable("id") Long id){
-        //findById restituisce un otpional, abbiamo quindi bisogno di fare la get per la trasformazione effettiva
-        return authorRepository.findById(id).get();
+    @GetMapping("create")
+    public String createAuthorView(Model viewModel) {
+        viewModel.addAttribute("title", "Crea autore");
+        viewModel.addAttribute("author", new Author());
+        return "createAuthor";
     }
+
 
     @PostMapping
-    public Author createAuthor(@RequestBody Author author){
-        return authorRepository.save(author);
-    }
-
-    @PutMapping("{id}")
-    public Author updateAuthor(@PathVariable("id") Long id, @RequestBody Author author){
-        author.setId(id);//Necessario per impostare l'id dell'autore che voglio modificare nel nuovo oggetto cosi che abbiano lo stesso id e quindi il framework effettuerà una modifica
-        return authorRepository.save(author);
-    }
-
-    @DeleteMapping("{id}")
-    public void deleteAuthor(@PathVariable("id") Long id){
-        if(authorRepository.existsById(id)){
-            Author author = authorRepository.findById(id).get();
-            List<Post> authorPosts = author.getPosts();
-            for (Post post : authorPosts) {
-                post.setAuthor(null);
-            }
-            authorRepository.deleteById(id);
-        }else{
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Author not found");
-        }
-
+    public String create(@ModelAttribute("author") Author author){
+        authorService.create(author);
+        //Metodi agganciati a rotte di tipo POST,PUT,PATCH,DELETE nella return hanno un redirect verso una rotta di TIPO GET
+        return "redirect:/authors";
     }
 
 }

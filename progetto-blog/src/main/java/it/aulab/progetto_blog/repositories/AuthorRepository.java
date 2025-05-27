@@ -13,6 +13,7 @@ public interface AuthorRepository extends ListCrudRepository<Author,Long>{
     List<Author> findByName(String firstname);
     List<Author> findBySurname(String lastname);
     List<Author> findByNameAndSurname(String firstname, String lastname); //select all from authors where fristname = firstname and lastname = lastname
+    List<Author> findByEmail(String email);
 
     //Query native, scritte in sql naturale
     @Query(value = "SELECT * FROM authors a WHERE a.firstname = 'Giuseppe'", nativeQuery = true)

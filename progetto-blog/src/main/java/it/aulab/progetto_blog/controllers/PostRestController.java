@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import it.aulab.progetto_blog.models.Comment;
-import it.aulab.progetto_blog.repositories.CommentRepository;
+import it.aulab.progetto_blog.models.Post;
+import it.aulab.progetto_blog.repositories.PostRepository;
 
 @Controller
-@RequestMapping("/comments")
-public class CommentController {
-@Autowired
-    CommentRepository commentRepository;
+@RequestMapping("/api/posts")
+public class PostRestController {
+    @Autowired
+    PostRepository postRepository;
     @RequestMapping(method=RequestMethod.GET)
-    public @ResponseBody List<Comment> getAllPost(){
-        return commentRepository.findAll();
+    public @ResponseBody List<Post> getAllPost(){
+        return postRepository.findAll();
     }
 
 }
