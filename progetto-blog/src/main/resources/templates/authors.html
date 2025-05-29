@@ -20,6 +20,12 @@
                     <a th:href="@{/authors/create}"  class="btn btn-primary m-2">
                         <i class="fa-solid fa-plus"></i>
                     </a>
+                    <form th:action="@{/logout}" method="post" class="ml-auto">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            logout
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -46,6 +52,7 @@
                      </tbody>                    
                 </table>
             </div>
+            <img src="https://picsum.photos/300/300" alt="">
         </div>
       </div>
 
